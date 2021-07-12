@@ -3,9 +3,9 @@ from flask_restful import reqparse
 from flask_apispec import marshal_with, doc, use_kwargs
 from flask_apispec.views import MethodResource
 
-from app.models.item import ItemModel
-from app.util.logs import create_logger
-from app.serializers.item import ItemSerializer
+from models.item import ItemModel
+from util.logs import create_logger
+from serializers.item import ItemSerializer
 
 
 class Item(MethodResource,):

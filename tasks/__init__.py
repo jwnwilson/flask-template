@@ -7,6 +7,7 @@ IS_WIN = OS in ["nt", "Windows"]
 IS_UNIX = not IS_WIN
 
 DOCKER_COMPOSE = "docker-compose"
+DOCKER_COMPOSE_RUN = "{} run api bash -c \"{}\""
 
 
 def activate_venv(c):
@@ -30,10 +31,15 @@ def run(c):
 
 @task
 def test(c):
-    c.run(f"{DOCKER_COMPOSE} run api bash -c 'pytest'")
+    c.run(DOCKER_COMPOSE_RUN.format(DOCKER_COMPOSE, "pytest"))
 
 
 @task
 def lint(c):
     activate_venv(c)
     c.run(f"isort . && black .")
+
+
+@task
+def init_db(c):
+    c.run(DOCKER_COMPOSE_RUN.format(DOCKER_COMPOSE, "python ./app/commands/init_db.py"))

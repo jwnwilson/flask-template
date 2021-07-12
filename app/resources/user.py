@@ -4,9 +4,9 @@ from flask import jsonify
 from flask_jwt_extended import create_access_token, current_user, jwt_required
 from flask_restful import Resource, reqparse
 
-from app.models.user import UserModel
-from app.util.encoder import AlchemyEncoder
-from app.util.logs import create_logger
+from models.user import UserModel
+from util.encoder import AlchemyEncoder
+from util.logs import create_logger
 
 
 class User(Resource):

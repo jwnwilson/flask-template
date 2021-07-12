@@ -19,5 +19,6 @@ EXPOSE 5000
 ENV FLASK_APP=app/app.py
 ENV FLASK_ENV=production
 ENV FLASK_DEBUG=0
+ENV PYTHONPATH=/app/app
 
 CMD ["gunicorn","-b", "0.0.0.0:5000", "-w", "4", "-k", "gevent", "--worker-tmp-dir", "/dev/shm", "app/app"]

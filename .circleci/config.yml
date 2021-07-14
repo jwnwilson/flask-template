@@ -47,7 +47,7 @@ jobs:
           paths:
               - venv
       - run:
-          command: inv deploy
+          command: touch .env && inv deploy
           name: Run build and deploy
 
 # Orchestrate our job run sequence

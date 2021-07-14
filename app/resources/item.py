@@ -1,14 +1,15 @@
+from flask_apispec import doc, marshal_with, use_kwargs
+from flask_apispec.views import MethodResource
 from flask_jwt_extended import jwt_required
 from flask_restful import reqparse
-from flask_apispec import marshal_with, doc, use_kwargs
-from flask_apispec.views import MethodResource
-
 from models.item import ItemModel
-from util.logs import create_logger
 from serializers.item import ItemSerializer
+from util.logs import create_logger
 
 
-class Item(MethodResource,):
+class Item(
+    MethodResource,
+):
     parser = (
         reqparse.RequestParser()
     )  # only allow price changes, no name changes allowed
@@ -23,11 +24,10 @@ class Item(MethodResource,):
         self.logger = create_logger()
 
     @jwt_required()
-    @doc(description='Get Items.', tags=['item'])
+    @doc(description="Get Items.", tags=["item"])
     @marshal_with(ItemSerializer)
     def get(self, name):
-        """Items in the store
-        """
+        """Items in the store"""
         item = ItemModel.find_by_name(name)
         self.logger.info(f"returning item: {item.json()}")
         if item:
@@ -35,7 +35,7 @@ class Item(MethodResource,):
         return {"message": "Item not found"}, 404
 
     @jwt_required()
-    @doc(description='Get Items.', tags=['item'])
+    @doc(description="Get Items.", tags=["item"])
     @marshal_with(ItemSerializer)
     def post(self, name):
         self.logger.info(f"parsed args: {Item.parser.parse_args()}")
@@ -54,7 +54,7 @@ class Item(MethodResource,):
         return item.json(), 201
 
     @jwt_required()
-    @doc(description='Get Items.', tags=['item'])
+    @doc(description="Get Items.", tags=["item"])
     @marshal_with(ItemSerializer)
     def delete(self, name):
 
@@ -65,7 +65,7 @@ class Item(MethodResource,):
             return {"message": "item has been deleted"}
 
     @jwt_required()
-    @doc(description='Get Items.', tags=['item'])
+    @doc(description="Get Items.", tags=["item"])
     @marshal_with(ItemSerializer)
     def put(self, name):
         # Create or Update
@@ -84,9 +84,7 @@ class Item(MethodResource,):
 
 class ItemList(MethodResource):
     @jwt_required()
-    @doc(description='Get Items.', tags=['item'])
+    @doc(description="Get Items.", tags=["item"])
     @marshal_with(ItemSerializer(many=True))
     def get(self):
-        return {
-            "items": [item.json() for item in ItemModel.query.all()]
-        } 
+        return {"items": [item.json() for item in ItemModel.query.all()]}

@@ -1,5 +1,5 @@
 def create_tables():
-    from app import db, app
+    from app import app, db
 
     db.create_all(app=app)
     print("Created initial DB tables")

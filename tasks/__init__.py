@@ -7,14 +7,17 @@ IS_WIN = OS in ["nt", "Windows"]
 IS_UNIX = not IS_WIN
 
 DOCKER_COMPOSE = "docker-compose"
-DOCKER_COMPOSE_RUN = "{} run api bash -c \"{}\""
+DOCKER_COMPOSE_RUN = '{} run --no-deps --rm api bash -c "{}"'
 
 
+@task
 def activate_venv(c):
+    if not os.path.isdir("venv"):
+        c.run("virtualenv ./venv")
     if IS_WIN:
         c.run(".\\venv\\Scripts\\activate")
     else:
-        c.run("source ./venv/scripts/activate")
+        c.run("source ./venv/bin/activate")
 
 
 @task
@@ -22,6 +25,12 @@ def build(c):
     activate_venv(c)
     c.run("poetry install")
     c.run(f"{DOCKER_COMPOSE} build")
+
+
+@task
+def deploy(c):
+    build(c)
+    c.run(f"docker push -t flask-template:latest")
 
 
 @task
@@ -35,9 +44,12 @@ def test(c):
 
 
 @task
-def lint(c):
+def lint(c, check=False):
     activate_venv(c)
-    c.run(f"isort . && black .")
+    if check:
+        c.run(f"isort . && black . --check")
+    else:
+        c.run(f"isort . && black .")
 
 
 @task

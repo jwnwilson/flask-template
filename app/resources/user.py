@@ -3,7 +3,6 @@ import json
 from flask import jsonify
 from flask_jwt_extended import create_access_token, current_user, jwt_required
 from flask_restful import Resource, reqparse
-
 from models.user import UserModel
 from util.encoder import AlchemyEncoder
 from util.logs import create_logger

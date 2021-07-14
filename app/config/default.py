@@ -1,3 +1,5 @@
+secret_key = "Changethis"
+
 postgresql = {
     "host": "database",
     "user": "postgres",

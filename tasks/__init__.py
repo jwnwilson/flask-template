@@ -25,6 +25,7 @@ def python_deps(c):
     activate_venv(c)
     c.run("poetry install")
 
+
 @task
 def build(c):
     c.run(f"{DOCKER_COMPOSE} build")

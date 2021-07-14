@@ -1,8 +1,8 @@
 postgresql = {
     "host": "database",
     "user": "postgres",
-    "passwd": "magical_password",
-    "db": "db",
+    "passwd": "password",
+    "db": "flask-template",
 }
 
 postgresqlConfig = "postgresql+psycopg2://{}:{}@{}/{}".format(

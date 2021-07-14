@@ -1,0 +1,53 @@
+version: 2.1
+
+# Define the jobs we want to run for this project
+jobs:
+  test:
+    docker:
+      - environment:
+        image: python:3.9-slim
+      - environment:
+        - POSTGRES_USER=postgres
+        - PG_PASSWORD=password
+        - POSTGRES_DB=flask-template
+        image: postgres:latest
+    steps:
+      - checkout
+      - run:
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+          name: Wait for DB
+      - run:
+          command: virtualenv venv
+          name: Create virtualenv
+      - run:
+          command: echo "source /home/circleci/project/venv/bin/activate" >> $BASH_ENV
+          name: Add activate-virtualenv hook for remaining commands
+      - restore_cache:
+          keys:
+              - python-cache-{{ arch }}-{{ checksum "requirements.txt" }}
+      - run: pip install -r requirements.txt
+      - save_cache:
+          key: python-cache-{{ arch }}-{{ checksum "requirements.txt" }}
+          paths:
+              - venv
+      - run:
+          command: pytest
+          name: Run tests
+  build_deploy:
+    docker:
+      - image: python:3.9-slim
+    steps:
+      - checkout
+      - run:
+          command: "docker build . -t flask-template:latest"
+          name: Build docker container
+      - run:
+          command: "docker push -t flask-template:latest"
+          name: Build docker container
+
+# Orchestrate our job run sequence
+workflows:
+  build_and_test:
+    jobs:
+      - test
+      - build_deploy

@@ -85,6 +85,15 @@ workflows:
       and:
         - not: main
         - not: develop
+  test_build_deploy_simple:
+    jobs:
+      - test
+      - build_deploy:
+        environment: simple
+        requires:
+          - test
+    when:
+      equal: simple
   test_build_deploy_staging:
     jobs:
       - test

@@ -60,3 +60,23 @@ def lint(c, check=False):
         c.run(f"isort . && black . --check")
     else:
         c.run(f"isort . && black .")
+
+
+@task
+def tf_init(c):
+    c.run(f"cd tf && terraform init")
+
+
+@task
+def tf_plan(c):
+    c.run(f"cd tf && terraform plan")
+
+
+@task
+def tf_apply(c):
+    c.run(f"cd tf && terraform apply")
+
+
+@task
+def tf_destroy(c):
+    c.run(f"cd tf && terraform destroy")

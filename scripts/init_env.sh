@@ -5,7 +5,7 @@ pip3 install invoke
 pip3 install poetry
 
 echo "Installing dependencies locally for local running / IDE"
-inv activate_venv
+inv activate-venv
 poetry install
 
 echo "Available commands"

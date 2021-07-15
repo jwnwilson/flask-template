@@ -55,7 +55,7 @@ jobs:
             echo 'export GOOGLE_CLOUD_KEYS=$(cat $HOME/gcloud-service-key.json)' >> $BASH_ENV
             echo 'export TAG=${CIRCLE_SHA1}' >> $BASH_ENV
             echo 'export IMAGE_NAME=$CIRCLE_PROJECT_REPONAME' >> $BASH_ENV && source $BASH_ENV
-            docker build -t us.gcr.io/$GOOGLE_PROJECT_ID/$IMAGE_NAME -t us.gcr.io/$GOOGLE_PROJECT_ID/$IMAGE_NAME:$TAG .
+            docker build -t eu.gcr.io/$GOOGLE_PROJECT_ID/$IMAGE_NAME -t eu.gcr.io/$GOOGLE_PROJECT_ID/$IMAGE_NAME:$TAG .
           name: Run build and deploy
       - gcp-gcr/gcr-auth:
           gcloud-service-key: GOOGLE_CLOUD_KEYS
@@ -63,12 +63,12 @@ jobs:
           google-compute-zone: GOOGLE_COMPUTE_ZONE
       - gcp-gcr/push-image:
           google-project-id: GOOGLE_PROJECT_ID
-          registry-url: "us.gcr.io"
+          registry-url: "eu.gcr.io"
           image: $IMAGE_NAME
       - cloudrun/deploy:
           platform: "managed"
           image: "eu.gcr.io/$GOOGLE_PROJECT_ID/$IMAGE_NAME"
-          service-name: "orb-gcp-cloud-run"
+          service-name: "flask-example-production"
           region: $GOOGLE_COMPUTE_ZONE
           unauthenticated: true
 

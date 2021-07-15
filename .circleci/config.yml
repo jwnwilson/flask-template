@@ -72,7 +72,7 @@ jobs:
       - cloudrun/deploy:
           platform: "managed"
           image: "eu.gcr.io/$GOOGLE_PROJECT_ID/$IMAGE_NAME"
-          service-name: "flask-example-<< parameters.target-environment >>"
+          service-name: "flask-example-<< parameters.environment >>"
           region: $GOOGLE_COMPUTE_ZONE
           unauthenticated: true
 
@@ -83,23 +83,33 @@ workflows:
       - test
     when:
       and:
-        - not: main
-        - not: develop
+        - not:
+            equal:
+              - develop
+              - << pipeline.git.branch >>
+        - not:
+            equal:
+              - main
+              - << pipeline.git.branch >>
   test_build_deploy_staging:
     jobs:
       - test
       - build_deploy:
-        environment: staging
-        requires:
-          - test
+          environment: staging
+          requires:
+            - test
     when:
-      equal: develop
+      equal:
+        - develop
+        - << pipeline.git.branch >>
   test_build_deploy_production:
     jobs:
       - test
       - build_deploy:
-        environment: production
-        requires:
-          - test
+          environment: production
+          requires:
+            - test
     when:
-      equal: main
+      equal:
+        - main
+        - << pipeline.git.branch >>

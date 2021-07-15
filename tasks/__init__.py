@@ -60,4 +60,3 @@ def lint(c, check=False):
         c.run(f"isort . && black . --check")
     else:
         c.run(f"isort . && black .")
-

@@ -1,7 +1,7 @@
 import config
 from flask import Flask
 from flask_restful import Api
-from resources.item import ItemList, Item
+from resources.item import Item, ItemList
 from swagger import setup_swagger
 
 

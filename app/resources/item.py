@@ -8,9 +8,7 @@ from util.logs import create_logger
 class Item(
     MethodResource,
 ):
-    parser = (
-        reqparse.RequestParser()
-    )
+    parser = reqparse.RequestParser()
 
     def __init__(self):
         self.logger = create_logger()

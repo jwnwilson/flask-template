@@ -32,6 +32,10 @@ jobs:
   build_deploy:
     docker:
       - image: cimg/python:3.9.6
+    parameters:
+      environment:
+        description: The environment to deploy to
+        type: string
     steps:
       - checkout
       - setup_remote_docker
@@ -68,19 +72,34 @@ jobs:
       - cloudrun/deploy:
           platform: "managed"
           image: "eu.gcr.io/$GOOGLE_PROJECT_ID/$IMAGE_NAME"
-          service-name: "flask-example-production"
+          service-name: "flask-example-<< parameters.target-environment >>"
           region: $GOOGLE_COMPUTE_ZONE
           unauthenticated: true
 
 # Orchestrate our job run sequence
 workflows:
-  test_build_deploy:
+  test:
+    jobs:
+      - test
+    when:
+      and:
+        - not: main
+        - not: develop
+  test_build_deploy_staging:
     jobs:
       - test
       - build_deploy:
-          filters:
-            branches:
-                only:
-                    - main
-          requires:
-              - test
+        environment: staging
+        requires:
+          - test
+    when:
+      equal: develop
+  test_build_deploy_production:
+    jobs:
+      - test
+      - build_deploy:
+        environment: production
+        requires:
+          - test
+    when:
+      equal: main

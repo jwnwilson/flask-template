@@ -27,5 +27,5 @@ app = create_app()
 
 
 if __name__ == "__main__":
-    
+
     app.run(debug=True)  # important to mention debug=True

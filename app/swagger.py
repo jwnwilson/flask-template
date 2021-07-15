@@ -17,7 +17,7 @@ def setup_swagger(app):
         {
             "APISPEC_SPEC": spec,
             "APISPEC_SWAGGER_URL": "/swagger/",  # URI to access API Doc JSON
-            "APISPEC_SWAGGER_UI_URL": "/swagger-ui/",  # URI to access UI of API Doc
+            "APISPEC_SWAGGER_UI_URL": "/",  # URI to access UI of API Doc
         }
     )
     swagger = FlaskApiSpec(app)

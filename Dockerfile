@@ -23,4 +23,4 @@ ENV PORT 8080
 
 EXPOSE 8080
 
-CMD ["gunicorn","-b", "0.0.0.0:8080", "-w", "4", "-k", "gevent", "--worker-tmp-dir", "/dev/shm", "app.app:create_app"]
+CMD ["gunicorn","-b", "0.0.0.0:8080", "-w", "4", "-k", "gevent", "--worker-tmp-dir", "/dev/shm", "app.app:app"]

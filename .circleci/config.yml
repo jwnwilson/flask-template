@@ -75,6 +75,7 @@ jobs:
           service-name: "flask-example-<< parameters.environment >>"
           region: $GOOGLE_COMPUTE_ZONE
           unauthenticated: true
+          no_output_timeout: 20m
 
 # Orchestrate our job run sequence
 workflows:

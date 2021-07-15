@@ -10,20 +10,7 @@ services:
       - FLASK_ENV=testing
     restart: always
     ports:
-      - 5000:5000
-    depends_on:
-      - database
+      - 8080:8080
     command: "flask run --host=0.0.0.0"
     volumes:
       - .:/app
-
-  database:
-    image: postgres:latest # use latest official postgres version
-    env_file:
-      - postgres.env # configure postgres
-    ports:
-      - 5432:5432
-    volumes:
-      - database-data:/var/lib/postgresql/data/ # persist data even if container shuts down
-volumes:
-  database-data: # Where local database data is stored

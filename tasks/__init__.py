@@ -12,6 +12,7 @@ PROJECT_NAME = "flask_example"
 GOOGLE_PROJECT_NAME = "flask-example-319821"
 GOOGLE_PROJECT_NAME = f"eu.gcr.io/{GOOGLE_PROJECT_NAME}/{PROJECT_NAME}"
 
+
 @task
 def activate_venv(c):
     if not os.path.isdir("venv"):
@@ -36,8 +37,11 @@ def build(c):
 @task
 def deploy(c):
     build(c)
-    c.run(f"docker tag {PROJECT_NAME}:latest {GOOGLE_PROJECT_NAME} {GOOGLE_PROJECT_NAME}:latest")
+    c.run(
+        f"docker tag {PROJECT_NAME}:latest {GOOGLE_PROJECT_NAME} {GOOGLE_PROJECT_NAME}:latest"
+    )
     c.run(f"docker push {GOOGLE_PROJECT_NAME}:latest")
+
 
 @task
 def run(c):

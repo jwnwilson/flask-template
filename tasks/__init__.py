@@ -61,7 +61,3 @@ def lint(c, check=False):
     else:
         c.run(f"isort . && black .")
 
-
-@task
-def init_db(c):
-    c.run(DOCKER_COMPOSE_RUN.format(DOCKER_COMPOSE, "python ./app/commands/init_db.py"))

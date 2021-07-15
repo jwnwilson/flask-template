@@ -1,5 +1,5 @@
-def test_items_400(client):
-    """Start with a blank database."""
+def test_items_200(client):
+    """Verify items endpoint."""
 
     rv = client.get("/items")
-    assert 401 == rv.status_code
+    assert 200 == rv.status_code

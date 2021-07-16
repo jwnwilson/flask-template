@@ -8,6 +8,11 @@ variable "region" {
     default = "europe-west2"
 }
 
+variable "environment" {
+    type = string
+    default = "staging"
+}
+
 provider "google" {
     credentials = file("../service_account.json")
     project     = var.GCP_project
@@ -15,9 +20,10 @@ provider "google" {
 }
 
 resource "google_sql_database_instance" "master" {
-  name             = "master-instance"
-  database_version = "POSTGRES_11"
-  region           =  var.region
+  name                = "master-instance-staging"
+  database_version    = "POSTGRES_11"
+  region              =  var.region
+  deletion_protection = false
 
   settings {
     tier = "db-f1-micro"

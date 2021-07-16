@@ -18,6 +18,9 @@ class Item(
     def get(self):
         """Items in the store"""
         item = {"name": "item"}
+
+        # Domain level logic goes here
+
         self.logger.info(f"returning item: {item}")
         if item:
             return item
